@@ -62,6 +62,7 @@ IMPL:
   - {IMPL: nasm, NO_SELF_HOST_PERF: 1}  # perf OOM
   - {IMPL: nim}
   - {IMPL: objpascal}
+  - {IMPL: objpascal.2}
   - {IMPL: objc}
   - {IMPL: ocaml}
   - {IMPL: perl}
