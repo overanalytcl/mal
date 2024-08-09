@@ -1,31 +1,23 @@
-# STEPS = step0_repl.pas step1_read_print.pas step2_eval.pas \
-# 	step3_env.pas step4_if_fn_do.pas step5_tco.pas \
-# 	step6_file.pas step7_quote.pas step8_macros.pas \
-# 	step9_try.pas stepA_mal.pas
+STEPS := $(basename $(notdir $(wildcard step*.pas)))
+FPMAKE = fpmake
+FPMAKE_SRC = fpmake.pp
+DEBUG = -gl
+FPC = fpc
 
-# STEP0_DEPS = mal_readline.pas
-# STEP1_DEPS = $(STEP0_DEPS) mal_types.pas reader.pas printer.pas
-# STEP3_DEPS = $(STEP1_DEPS) mal_env.pas
-# STEP4_DEPS = $(STEP3_DEPS) core.pas
+all: $(FPMAKE) build $(STEPS)
 
-# #####################
+$(FPMAKE): $(FPMAKE_SRC)
+	$(FPC) $(DEBUG) $(FPMAKE_SRC)
 
-# DEBUG = -gl
+build: $(FPMAKE)
+	./$(FPMAKE) compile -T $(shell nproc)
 
-# # Set this to link with libreadline instead of libedit
-# USE_READLINE =
+$(STEPS): build
+	@echo "Building $@"
 
-# FPC = fpc -MOBJFPC -ve -Furegexpr/Source $(DEBUG) $(if $(strip $(USE_READLINE)),-dUSE_READLINE,)
+clean:
+	@echo "Cleaning up..."
+	./$(FPMAKE) distclean
+	rm -rf $(FPMAKE) $(STEPS) *.o *.ppu backup/ units/
 
-# all: $(patsubst %.pas,%,$(STEPS))
-
-# step%: step%.pas
-# 	$(FPC) $<
-
-# step0_repl: $(STEP0_DEPS)
-# step1_read_print step2_eval: $(STEP1_DEPS)
-# step3_env: $(STEP3_DEPS)
-# step4_if_fn_do step5_tco step6_file step7_quote step8_macros step9_try stepA_mal: $(STEP4_DEPS)
-
-# clean:
-# 	rm -f $(STEPS:%.pas=%) *.o *.ppu regexpr/Source/*.o regexpr/Source/*.ppu mal
+.PHONY: all build clean
