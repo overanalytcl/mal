@@ -98,6 +98,10 @@ objpascal/*.o
 objpascal/*.ppu
 objpascal/pas-readline
 objpascal/regexpr/Source/RegExpr.ppu
+objpascal.2/*.o
+objpascal.2/*.ppu
+objpascal.2/backup
+objpascal.2/units
 perl/mal.pl
 perl6/.precomp/
 php/mal.php
