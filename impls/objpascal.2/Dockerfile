@@ -6,11 +6,12 @@ MAINTAINER Stefan-Iulian Alecu <uneven-shiver@protonmail.com>
 # implementations
 ##########################################################
 
-RUN apt-get -y update
-
-# Required for running tests
-RUN apt-get -y install make python3
-RUN ln -fs /usr/bin/python3 /usr/local/bin/python
+RUN apt-get update && \
+    apt-get install -y \
+        make \
+        python3 \
+        python3-pip && \
+    ln -fs /usr/bin/python3 /usr/local/bin/python
 
 RUN mkdir -p /mal
 WORKDIR /mal
@@ -20,4 +21,15 @@ WORKDIR /mal
 ##########################################################
 
 # Free Pascal
-RUN apt-get -y install libc-dev fp-compiler libedit-dev
+RUN apt-get install -y \
+        libc-dev \
+        fp-compiler \
+        fpc-source \
+        fp-units-base \
+        fp-units-rtl \
+        fp-units-fcl \
+        fp-units-misc \
+        fp-utils \
+        libedit-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
